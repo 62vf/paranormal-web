@@ -4,7 +4,6 @@ import { toast } from 'react-hot-toast'
 import { caseApi } from '../api/caseApi'
 import { normalizeItem } from '../utils/helpers'
 import StatusBadge from '../components/StatusBadge'
-import EvidenceGallery from '../components/EvidenceGallery'
 import CaseCard from '../components/CaseCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ErrorMessage from '../components/ErrorMessage'
@@ -39,15 +38,6 @@ const CaseDetails = () => {
     }
     load()
   }, [kind, id])
-
-  const evidenceItems = useMemo(
-    () => [
-      { id: 'e-1', label: 'Field Log Snapshot', meta: 'Awaiting backend evidence endpoint' },
-      { id: 'e-2', label: 'Audio Spectrogram', meta: 'Awaiting backend evidence endpoint' },
-      { id: 'e-3', label: 'Thermal Frame', meta: 'Awaiting backend evidence endpoint' },
-    ],
-    [],
-  )
 
   if (loading) return <LoadingSpinner label="Opening case file..." />
   if (error) return <ErrorMessage message={error} />
@@ -112,13 +102,6 @@ const CaseDetails = () => {
               currently stores title and body only.
             </p>
           </div>
-        </div>
-
-        <div className="paper-card-darker scratched-border p-4">
-          <h3 className="case-font text-xl font-semibold text-white mb-3 flex items-center gap-2">
-            <span className="text-2xl">📸</span> Evidence Gallery
-          </h3>
-          <EvidenceGallery items={evidenceItems} />
         </div>
 
         <div className="paper-card-darker scratched-border p-4">
