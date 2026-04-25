@@ -7,14 +7,23 @@ const cors = require('cors')
 const app = express()
 
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173'
-const allowedOrigins = [frontendUrl]
+const defaultOrigins = [
+  frontendUrl,
+  'https://paranormal-web.vercel.app',
+]
+const allowedOrigins = new Set([
+  ...defaultOrigins,
+  ...(process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
+    : []),
+])
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.has(origin)) {
       callback(null, true)
     } else {
-      callback(new Error('CORS policy: origin not allowed'))
+      callback(new Error(`CORS policy: origin ${origin} not allowed`))
     }
   },
   credentials: true,
